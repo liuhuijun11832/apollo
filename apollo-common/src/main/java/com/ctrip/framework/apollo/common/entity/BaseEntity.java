@@ -15,7 +15,7 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 import javax.persistence.PreRemove;
 import javax.persistence.PreUpdate;
-
+/**使用了@MappedSuperclass表示这个类不会是一个完整的实体类，它将不会映射到数据库表，但是它的属性都将映射到其子类的数据库表字段里*/
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class BaseEntity {
