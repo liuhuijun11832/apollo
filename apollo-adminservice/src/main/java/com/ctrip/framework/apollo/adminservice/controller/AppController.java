@@ -34,17 +34,20 @@ public class AppController {
 
   @PostMapping("/apps")
   public AppDTO create(@RequestBody AppDTO dto) {
+    //校验appid的格式是否满足正则[0-9a-zA-Z_.-]+
     if (!InputValidator.isValidClusterNamespace(dto.getAppId())) {
       throw new BadRequestException(String.format("AppId格式错误: %s", InputValidator.INVALID_CLUSTER_NAMESPACE_MESSAGE));
     }
+    //转换成目标对象entity
     App entity = BeanUtils.transform(App.class, dto);
+    //寻找一个，如果存在就抛出异常
     App managedEntity = appService.findOne(entity.getAppId());
     if (managedEntity != null) {
       throw new BadRequestException("app already exist.");
     }
 
     entity = adminService.createNewApp(entity);
-
+    //将保存的对象转换成实体类返回
     dto = BeanUtils.transform(AppDTO.class, entity);
     return dto;
   }

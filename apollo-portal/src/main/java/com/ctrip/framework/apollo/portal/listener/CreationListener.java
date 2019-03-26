@@ -28,12 +28,17 @@ public class CreationListener {
   @Autowired
   private AdminServiceAPI.NamespaceAPI namespaceAPI;
 
+  /**
+   * 这个地方的@EvenListener注解表示会监听方法参数类型的事件
+   * @param event
+   */
   @EventListener
   public void onAppCreationEvent(AppCreationEvent event) {
     AppDTO appDTO = BeanUtils.transform(AppDTO.class, event.getApp());
     List<Env> envs = portalSettings.getActiveEnvs();
     for (Env env : envs) {
       try {
+        //调用adminService的接口创建APP
         appAPI.createApp(env, appDTO);
       } catch (Throwable e) {
         logger.error("Create app failed. appId = {}, env = {})", appDTO.getAppId(), env, e);

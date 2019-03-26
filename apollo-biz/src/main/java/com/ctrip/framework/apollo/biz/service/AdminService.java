@@ -33,11 +33,11 @@ public class AdminService {
     App createdApp = appService.save(app);
 
     String appId = createdApp.getAppId();
-
+    //创建默认命名空间
     appNamespaceService.createDefaultAppNamespace(appId, createBy);
-
+    //创建默认cluster
     clusterService.createDefaultCluster(appId, createBy);
-
+    //创建claster默认命名空间
     namespaceService.instanceOfAppNamespaces(appId, ConfigConsts.CLUSTER_NAME_DEFAULT, createBy);
 
     return app;

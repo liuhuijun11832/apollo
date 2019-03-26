@@ -61,6 +61,7 @@ public class AppService {
     if (!isAppIdUnique(entity.getAppId())) {
       throw new ServiceException("appId not unique");
     }
+    //通过设置0可以保护数据，因为在mysql主键自增的情况下，0为自动替换外最大主键的下一个
     entity.setId(0);//protection
     App app = appRepository.save(entity);
     
